@@ -21,4 +21,3 @@ class Level:
     def run(self):
         # update and draw the game
         pass
-
