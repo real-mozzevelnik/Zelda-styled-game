@@ -6,4 +6,3 @@ class Tile(pygame.sprite.Sprite):
         super().__init__(groups)
         self.image = pygame.image.load('../graphics/test/rock.png').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
-
