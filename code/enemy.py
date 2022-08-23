@@ -53,7 +53,7 @@ class Enemy(Entity):
         enemy_vec = pygame.math.Vector2(self.rect.center)
         player_vec = pygame.math.Vector2(player.rect.center)
         distance = (player_vec - enemy_vec).magnitude()
-        if distance > 0:
+        if distance > self.attack_radius:
             direction = (player_vec - enemy_vec).normalize()
         else:
             direction = pygame.math.Vector2()
