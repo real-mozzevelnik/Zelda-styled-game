@@ -40,7 +40,8 @@ class AnimationPlayer:
                 )
             }
 
-    def reflect_images(self, frames):
+    @staticmethod
+    def reflect_images(frames):
         new_frames = []
         for frame in frames:
             flipped_frame = pygame.transform.flip(frame, True, False)
@@ -56,7 +57,7 @@ class AnimationPlayer:
         ParticleEffect(pos, animation_frames, groups)
 
 class ParticleEffect(pygame.sprite.Sprite):
-    def __init__(self, pos, animation_frames, groups, animation_speed = 0.15):
+    def __init__(self, pos, animation_frames, groups, animation_speed = 0.18):
         super().__init__(groups)
         self.frame_index = 0
         self.animation_speed = animation_speed
