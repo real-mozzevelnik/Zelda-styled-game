@@ -84,13 +84,13 @@ class Player(Entity):
             # attack input
             if keys[pygame.K_SPACE]:
                 self.attacking = True
-                self.atack_time = pygame.time.get_ticks()
+                self.attack_time = pygame.time.get_ticks()
                 self.create_attack()
 
             # magic input
             if keys[pygame.K_LCTRL]:
                 self.attacking = True
-                self.atack_time = pygame.time.get_ticks()
+                self.attack_time = pygame.time.get_ticks()
                 style = list(magic_data.keys())[self.magic_index]
                 strength = list(magic_data.values())[self.magic_index]['strength'] +self.stats['magic']
                 cost = list(magic_data.values())[self.magic_index]['cost']
@@ -140,7 +140,7 @@ class Player(Entity):
         current_time = pygame.time.get_ticks()
 
         if self.attacking:
-            if current_time - self.atack_time >= self.attack_cooldown + weapon_data[self.weapon]['cooldown']:
+            if current_time - self.attack_time >= self.attack_cooldown + weapon_data[self.weapon]['cooldown']:
                 self.attacking = False
                 self.destroy_attack()
 
@@ -180,9 +180,21 @@ class Player(Entity):
         weapon_damage = weapon_data[self.weapon]['damage']
         return base_damage + weapon_damage
 
+    def get_full_magic_damage(self):
+        base_damage = self.stats['magic']
+        spell_damage = magic_data[self.magic]['strength']
+        return base_damage + spell_damage
+
+    def energy_recovery(self):
+        if self.energy < self.stats['energy']:
+            self.energy += 0.05
+        else:
+            self.energy = self.stats['energy']
+
     def update(self):
         self.input()
         self.cooldowns()
         self.get_status()
         self.animate()
         self.move(self.speed)
+        self.energy_recovery()

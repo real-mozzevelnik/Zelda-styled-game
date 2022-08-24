@@ -43,3 +43,4 @@ class Entity(pygame.sprite.Sprite):
             return 255
         else:
             return 0
+
