@@ -39,9 +39,11 @@ class Player(Entity):
 
         # stats
         self.stats = {'health': 100, 'energy': 60, 'attack': 10, 'magic': 4, 'speed': 5}
+        self.max_stats = {'health': 300, 'energy': 140, 'attack': 20, 'magic':10, 'speed': 10}
+        self.upgrade_cost = 100
         self.health = self.stats['health']
         self.energy = self.stats['energy']
-        self.exp = 123
+        self.exp = 500 # todo: set 0
         self.speed = self.stats['speed']
 
         # damage_timer
@@ -184,6 +186,12 @@ class Player(Entity):
         base_damage = self.stats['magic']
         spell_damage = magic_data[self.magic]['strength']
         return base_damage + spell_damage
+
+    def get_value_by_index(self, index):
+        return list(self.stats.values())[index]
+
+    def get_cost(self):
+        return self.upgrade_cost
 
     def energy_recovery(self):
         if self.energy < self.stats['energy']:
