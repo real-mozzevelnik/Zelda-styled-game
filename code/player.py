@@ -8,7 +8,7 @@ class Player(Entity):
         super().__init__(groups)
         self.image = pygame.image.load('../graphics/test/player.png').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
-        self.hitbox = self.rect.inflate(0,-26) #todo: maybe set to -56
+        self.hitbox = self.rect.inflate(-6, HITBOX_OFFSET['player'])
 
         # graphics setup
         self.import_player_assets()
@@ -43,13 +43,17 @@ class Player(Entity):
         self.upgrade_cost = 100
         self.health = self.stats['health']
         self.energy = self.stats['energy']
-        self.exp = 500 # todo: set 0
+        self.exp = 0 # todo: set 0
         self.speed = self.stats['speed']
 
         # damage_timer
         self.vulnerable = True
         self.hurt_time = None
         self.invulnerability_duration = 500
+
+        # import a sound
+        self.weapon_attack_sound = pygame.mixer.Sound('../audio/sword.wav')
+        self.weapon_attack_sound.set_volume(0.2)
 
     def import_player_assets(self):
         character_path = '../graphics/player/'
@@ -88,6 +92,7 @@ class Player(Entity):
                 self.attacking = True
                 self.attack_time = pygame.time.get_ticks()
                 self.create_attack()
+                self.weapon_attack_sound.play()
 
             # magic input
             if keys[pygame.K_LCTRL]:
@@ -204,5 +209,5 @@ class Player(Entity):
         self.cooldowns()
         self.get_status()
         self.animate()
-        self.move(self.speed)
+        self.move(self.stats['speed'])
         self.energy_recovery()

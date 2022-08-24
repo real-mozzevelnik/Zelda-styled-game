@@ -105,6 +105,7 @@ class Level:
                             for leaf in range(randint(3,5)):
                                 self.animation_player.create_grass_particles(pos - offset, [self.visible_sprites])
                             target_sprite.kill()
+                            self.player.exp += randint(10,50)
                         else:
                             target_sprite.get_damage(self.player, attack_sprite.sprite_type)
 

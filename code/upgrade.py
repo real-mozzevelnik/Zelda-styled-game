@@ -37,7 +37,7 @@ class Upgrade:
             if keys[pygame.K_SPACE]:
                 self.can_move = False
                 self.selection_time = pygame.time.get_ticks()
-                print(self.selection_index)
+                self.item_list[self.selection_index].trigger(self.player)
 
     def selection_cooldown(self):
         if not self.can_move:
@@ -78,6 +78,7 @@ class Item:
         self.rect = pygame.Rect(l,t,w,h)
         self.index = index
         self.font = font
+        self.upgrade_sound = pygame.mixer.Sound('../audio/heal.wav')
 
     def display_names(self, surface, name, cost, selected):
         color = TEXT_COLOR_SELECTED if selected else TEXT_COLOR
@@ -109,6 +110,19 @@ class Item:
         # draw elements
         pygame.draw.line(surface, color, top, bottom, 5)
         pygame.draw.rect(surface, color, value_rect)
+
+    def trigger(self, player):
+        upgrade_attribute = list(player.stats.keys())[self.index]
+
+        if player.exp >= player.upgrade_cost and player.stats[upgrade_attribute] < player.max_stats[upgrade_attribute]:
+            player.exp -= player.upgrade_cost
+            player.stats[upgrade_attribute] *= 1.2
+            player.upgrade_cost *= 1.1
+            player.upgrade_cost = int(player.upgrade_cost)
+            self.upgrade_sound.play()
+
+        if player.stats[upgrade_attribute] > player.max_stats[upgrade_attribute]:
+            player.stats[upgrade_attribute] = player.max_stats[upgrade_attribute]
 
     def display(self, surface, selection_num, name, value, max_value, cost):
         if self.index == selection_num:

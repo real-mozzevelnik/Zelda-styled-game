@@ -6,12 +6,18 @@ class Game:
     def __init__(self):
 
         # general setup
+        pygame.mixer.pre_init(44100, -16, 2, 1024)
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH,HEIGTH))
         pygame.display.set_caption('Zelda')
         self.clock = pygame.time.Clock()
 
         self.level = Level()
+
+        # sound
+        main_sound = pygame.mixer.Sound('../audio/main.ogg')
+        main_sound.set_volume(0.5)
+        main_sound.play(loops=-1)
 
     def run(self):
         while True:
