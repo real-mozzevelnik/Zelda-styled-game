@@ -1,5 +1,6 @@
 import pygame
 from settings import *
+from file_path import res
 
 class Upgrade:
     def __init__(self, player):
@@ -78,7 +79,7 @@ class Item:
         self.rect = pygame.Rect(l,t,w,h)
         self.index = index
         self.font = font
-        self.upgrade_sound = pygame.mixer.Sound('../audio/heal.wav')
+        self.upgrade_sound = pygame.mixer.Sound(res('../audio/heal.wav'))
 
     def display_names(self, surface, name, cost, selected):
         color = TEXT_COLOR_SELECTED if selected else TEXT_COLOR

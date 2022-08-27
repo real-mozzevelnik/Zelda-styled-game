@@ -1,11 +1,12 @@
 import pygame
 from settings import *
+from file_path import res
 
 class Menu:
     def __init__(self, stat):
         self.display_surface = pygame.display.get_surface()
         self.font = pygame.font.Font(UI_FONT, 72)
-        self.back = pygame.image.load('../graphics/tilemap/menu_back.png').convert_alpha()
+        self.back = pygame.image.load(res('../graphics/tilemap/menu_back.png')).convert_alpha()
 
         # stat sys
         self.stat = stat

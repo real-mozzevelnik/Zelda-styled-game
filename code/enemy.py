@@ -1,7 +1,7 @@
-import pygame
 from settings import *
 from entity import Entity
 from support import *
+from file_path import res
 
 class Enemy(Entity):
     def __init__(self, monster_name, pos, groups, obstacle_sprites, damage_player, trigger_death_particles, add_exp):
@@ -46,8 +46,8 @@ class Enemy(Entity):
         self.invincibility_duration = 500
 
         # sounds
-        self.death_sound = pygame.mixer.Sound('../audio/death.wav')
-        self.hit_sound = pygame.mixer.Sound('../audio/hit.wav')
+        self.death_sound = pygame.mixer.Sound(res('../audio/death.wav'))
+        self.hit_sound = pygame.mixer.Sound(res('../audio/hit.wav'))
         self.attack_sound = pygame.mixer.Sound(monster_info['attack_sound'])
         self.death_sound.set_volume(0.4)
         self.hit_sound.set_volume(0.2)
@@ -57,7 +57,7 @@ class Enemy(Entity):
         self.animations = {'idle': [], 'move': [], 'attack': []}
         main_path = f'../graphics/monsters/{name}/'
         for animation in self.animations.keys():
-            self.animations[animation] = import_folder(main_path + animation)
+            self.animations[animation] = import_folder(res(main_path + animation))
 
     def get_player_distance_direction(self, player):
         enemy_vec = pygame.math.Vector2(self.rect.center)

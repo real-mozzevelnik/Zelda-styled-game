@@ -2,11 +2,12 @@ import pygame
 from settings import *
 from support import import_folder
 from entity import Entity
+from file_path import res
 
 class Player(Entity):
     def __init__(self,pos,groups,obstacle_sprites,create_attack, destroy_attack, create_magic):
         super().__init__(groups)
-        self.image = pygame.image.load('../graphics/test/player.png').convert_alpha()
+        self.image = pygame.image.load(res('../graphics/test/player.png')).convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
         self.hitbox = self.rect.inflate(-6, HITBOX_OFFSET['player'])
 
@@ -52,7 +53,7 @@ class Player(Entity):
         self.invulnerability_duration = 500
 
         # import a sound
-        self.weapon_attack_sound = pygame.mixer.Sound('../audio/sword.wav')
+        self.weapon_attack_sound = pygame.mixer.Sound(res('../audio/sword.wav'))
         self.weapon_attack_sound.set_volume(0.2)
 
     def import_player_assets(self):
@@ -62,7 +63,7 @@ class Player(Entity):
             'right_attack': [], 'left_attack': [], 'up_attack': [], 'down_attack': []}
         for animation in self.animations.keys():
             full_path = character_path + animation
-            self.animations[animation] = import_folder(full_path)
+            self.animations[animation] = import_folder(res(full_path))
 
     def input(self):
         if not self.attacking:

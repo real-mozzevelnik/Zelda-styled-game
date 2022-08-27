@@ -1,8 +1,6 @@
-import pygame
 from settings import *
 from tile import Tile
 from player import Player
-from debug import debug
 from support import *
 from random import choice, randint
 from weapon import Weapon
@@ -11,6 +9,7 @@ from enemy import Enemy
 from particles import AnimationPlayer
 from magic import MagicPlayer
 from upgrade import Upgrade
+from file_path import res
 
 class Level:
     def __init__(self, stat):
@@ -39,18 +38,20 @@ class Level:
         self.animation_player = AnimationPlayer()
         self.magic_player = MagicPlayer(self.animation_player)
 
+        # stats
         self.stat = stat
+        self.level_is_running = False
 
     def create_map(self):
         layouts = {
-            'boundary': import_csv_layout('../map/map_FloorBlocks.csv'),
-            'grass': import_csv_layout('../map/map_Grass.csv'),
-            'object': import_csv_layout('../map/map_Objects.csv'),
-            'entities': import_csv_layout('../map/map_Entities.csv')
+            'boundary': import_csv_layout(res('../map/map_FloorBlocks.csv')),
+            'grass': import_csv_layout(res('../map/map_Grass.csv')),
+            'object': import_csv_layout(res('../map/map_Objects.csv')),
+            'entities': import_csv_layout(res('../map/map_Entities.csv'))
         }
         graphics = {
-            'grass': import_folder('../graphics/Grass'),
-            'objects': import_folder('../graphics/objects')
+            'grass': import_folder(res('../graphics/Grass')),
+            'objects': import_folder(res('../graphics/objects'))
         }
 
         for style, layout in layouts.items():
@@ -130,15 +131,10 @@ class Level:
     def check_player_death(self):
         if self.player.health <= 0:
             self.stat.stat_now = 'death'
-
-    def open_upgrade(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_m:
-                        self.level.toggle_menu()
+            self.level_is_running = False
 
     def run(self):
+        self.level_is_running = True
         self.visible_sprites.custom_draw(self.player)
         self.ui.display(self.player)
         if self.game_paused:
@@ -163,7 +159,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
         # creating the floor
-        self.floor_surf = pygame.image.load('../graphics/tilemap/ground.png').convert()
+        self.floor_surf = pygame.image.load(res('../graphics/tilemap/ground.png')).convert()
         self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
 
     def custom_draw(self,player):

@@ -1,13 +1,14 @@
 import pygame
 from settings import *
 from random import randint
+from file_path import res
 
 class MagicPlayer:
     def __init__(self, animation_player):
         self.animation_player = animation_player
         self.sounds = {
-        'heal': pygame.mixer.Sound('../audio/heal.wav'),
-        'flame': pygame.mixer.Sound('../audio/Fire.wav')}
+        'heal': pygame.mixer.Sound(res('../audio/heal.wav')),
+        'flame': pygame.mixer.Sound(res('../audio/Fire.wav'))}
 
     def heal(self, player, strength, cost, groups):
         if player.energy >= cost and player.health != player.stats['health']:

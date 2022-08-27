@@ -3,6 +3,7 @@ from settings import *
 from level import Level
 from menu import Menu
 from game_stats import Stat
+from file_path import res
 
 class Game:
     def __init__(self):
@@ -21,7 +22,7 @@ class Game:
         self.menu = Menu(self.stat)
 
         # sound
-        main_sound = pygame.mixer.Sound('../audio/main.ogg')
+        main_sound = pygame.mixer.Sound(res('../audio/main.ogg'))
         main_sound.set_volume(0.5)
         main_sound.play(loops=-1)
 
@@ -41,6 +42,9 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_m and self.level.level_is_running:
+                        self.level.toggle_menu()
 
             self.screen.fill(WATER_COLOR)
             self.check_stat()
