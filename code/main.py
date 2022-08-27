@@ -1,6 +1,7 @@
 import pygame, sys
 from settings import *
 from level import Level
+from game_stats import Menu
 
 class Game:
     def __init__(self):
@@ -13,11 +14,18 @@ class Game:
         self.clock = pygame.time.Clock()
 
         self.level = Level()
+        self.menu = Menu(self.level)
 
         # sound
         main_sound = pygame.mixer.Sound('../audio/main.ogg')
         main_sound.set_volume(0.5)
         main_sound.play(loops=-1)
+
+    def check_stat(self):
+        if self.level.stat == 'menu':
+            self.menu.run()
+        elif self.level.stat == 'run_level':
+            self.level.run()
 
     def run(self):
         while True:
@@ -30,7 +38,7 @@ class Game:
                         self.level.toggle_menu()
 
             self.screen.fill(WATER_COLOR)
-            self.level.run()
+            self.check_stat()
             pygame.display.update()
             self.clock.tick(FPS)
 

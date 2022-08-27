@@ -39,6 +39,8 @@ class Level:
         self.animation_player = AnimationPlayer()
         self.magic_player = MagicPlayer(self.animation_player)
 
+        self.stat = 'menu'
+
     def create_map(self):
         layouts = {
             'boundary': import_csv_layout('../map/map_FloorBlocks.csv'),
