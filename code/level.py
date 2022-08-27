@@ -13,7 +13,7 @@ from magic import MagicPlayer
 from upgrade import Upgrade
 
 class Level:
-    def __init__(self):
+    def __init__(self, stat):
 
         # get the display surface
         self.display_surface = pygame.display.get_surface()
@@ -39,7 +39,7 @@ class Level:
         self.animation_player = AnimationPlayer()
         self.magic_player = MagicPlayer(self.animation_player)
 
-        self.stat = 'menu'
+        self.stat = stat
 
     def create_map(self):
         layouts = {
@@ -127,6 +127,17 @@ class Level:
     def toggle_menu(self):
         self.game_paused = not self.game_paused
 
+    def check_player_death(self):
+        if self.player.health <= 0:
+            self.stat.stat_now = 'death'
+
+    def open_upgrade(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_m:
+                        self.level.toggle_menu()
+
     def run(self):
         self.visible_sprites.custom_draw(self.player)
         self.ui.display(self.player)
@@ -138,6 +149,8 @@ class Level:
             self.visible_sprites.update()
             self.visible_sprites.enemy_update(self.player)
             self.player_attack_logic()
+            self.check_player_death()
+
 
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):

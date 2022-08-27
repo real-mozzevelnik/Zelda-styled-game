@@ -1,7 +1,8 @@
 import pygame, sys
 from settings import *
 from level import Level
-from game_stats import Menu
+from menu import Menu
+from game_stats import Stat
 
 class Game:
     def __init__(self):
@@ -13,8 +14,11 @@ class Game:
         pygame.display.set_caption('Zelda')
         self.clock = pygame.time.Clock()
 
-        self.level = Level()
-        self.menu = Menu(self.level)
+        # stat
+        self.stat = Stat()
+
+        self.level = Level(self.stat)
+        self.menu = Menu(self.stat)
 
         # sound
         main_sound = pygame.mixer.Sound('../audio/main.ogg')
@@ -22,10 +26,14 @@ class Game:
         main_sound.play(loops=-1)
 
     def check_stat(self):
-        if self.level.stat == 'menu':
+        if self.stat.stat_now == 'menu':
             self.menu.run()
-        elif self.level.stat == 'run_level':
+        elif self.stat.stat_now == 'run_level':
             self.level.run()
+        elif self.stat.stat_now == 'death':
+            self.level = None
+            self.level = Level(self.stat)
+            self.stat.stat_now = 'menu'
 
     def run(self):
         while True:
@@ -33,9 +41,6 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_m:
-                        self.level.toggle_menu()
 
             self.screen.fill(WATER_COLOR)
             self.check_stat()
