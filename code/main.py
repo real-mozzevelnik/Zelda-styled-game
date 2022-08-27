@@ -35,6 +35,10 @@ class Game:
             self.level = None
             self.level = Level(self.stat)
             self.stat.stat_now = 'menu'
+        elif self.stat.stat_now == 'win':
+            self.level = None
+            self.level = Level(self.stat)
+            self.stat.stat_now = 'menu'
 
     def run(self):
         while True:

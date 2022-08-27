@@ -112,6 +112,17 @@ class Level:
                         else:
                             target_sprite.get_damage(self.player, attack_sprite.sprite_type)
 
+    def win(self):
+        if self.attackable_sprites:
+            for target in self.attackable_sprites:
+                x = 0
+                if target.sprite_type != 'grass':
+                    x = 1
+            if x == 0:
+                self.stat.stat_now = 'win'
+        else:
+            self.stat.stat_now = 'win'
+
     def damage_player(self, amount, attack_type):
         if self.player.vulnerable:
             self.player.health -= amount
@@ -146,6 +157,7 @@ class Level:
             self.visible_sprites.enemy_update(self.player)
             self.player_attack_logic()
             self.check_player_death()
+            self.win()
 
 
 class YSortCameraGroup(pygame.sprite.Group):
