@@ -14,6 +14,7 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH,HEIGTH))
         pygame.display.set_caption('Zelda')
         self.clock = pygame.time.Clock()
+        main_sound = pygame.mixer.Sound(res('../audio/main.ogg'))
 
         # stat
         self.stat = Stat()
@@ -22,7 +23,7 @@ class Game:
         self.menu = Menu(self.stat)
 
         # sound
-        main_sound = pygame.mixer.Sound(res('../audio/main.ogg'))
+
         main_sound.set_volume(0.5)
         main_sound.play(loops=-1)
 
